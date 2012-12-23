@@ -96,64 +96,52 @@ class FieldOfSearch(Base):
 
 #===============================================================================
 # REFERENCE SECTION
-class BaseReference(Base):
-	__tablename__ = 'references'
 
-	id 			= Column(Integer, primary_key=True)
-	patent_id	= Column(Integer, ForeignKey(Patent.id))
-	text 		= Column(String(255))
-	type 		= Column(String(15))
-	patent 		= relation("Patent", backref="references", cascade_backrefs=False)
-
-	__mapper_args__ = { 
-		'polymorphic_identity': 'generic', 
-		'polymorphic_on': type 
-	}
-
-	def __init__(self, text, patent):
-		self.patent_id = patent 
-		self.text = text
-
-	def __repr__(self):
-		return "<Reference (%s)>" % ( self.type, )
-
-class PublicationReference(BaseReference):
+class PublicationReference(Base):
 	__tablename__ = 'pub_references'
 	__mapper_args__ = { 'polymorphic_identity': 'publication'}
 
-	id = Column(Integer, ForeignKey(BaseReference.id), primary_key=True)
+	id = Column(Integer, primary_key=True)
+	patent_id	= Column(Integer, ForeignKey(Patent.id))
+	patent 		= relation("Patent", backref=backref("references", cascade="delete"))
+	text 		= Column(String(255))
 	docNumber 	= Column(String(20))
 	country		= Column(String(10))
 	kind		= Column(String(10))
 	name		= Column(String(20))
 	date 		= Column(Date)
-	patent 		= relation("Patent", backref="pub_references", cascade_backrefs=False)
 
 	def __init__(self, text, patent):
-		super(PublicationReference, self).__init__(text, patent)
+		self.text = text
+		self.patent = patent
 
-class ApplicationReference(BaseReference):
+class ApplicationReference(Base):
 	__tablename__ = 'app_references'
-	__mapper_args__ = { 'polymorphic_identity': 'application'}
 
-	id = Column(Integer, ForeignKey(BaseReference.id), primary_key=True)
+	id = Column(Integer, primary_key=True)
+	patent_id	= Column(Integer, ForeignKey(Patent.id))
+	patent 		= relation("Patent", backref=backref("references", cascade="delete"))
+	text 		= Column(String(255))
 	docNumber 	= Column(String(20))
 	country		= Column(String(10))
 	date 		= Column(Date)
-	patent 		= relation("Patent", backref="appl_references", cascade_backrefs=False)
 
 	def __init__(self, text, patent):
-		super(ApplicationReference, self).__init__(text, patent)
+		self.text = text
+		self.patent = patent
 
-class NonPatReference(BaseReference):
+
+class NonPatReference(Base):
 	__tablename__ = 'non_patent'
-	__mapper_args__ = { 'polymorphic_identity': 'application'}
 
-	id 			= Column(Integer, ForeignKey(BaseReference.id), primary_key=True)
-	patent 		= relation("Patent", backref="npat_references", cascade_backrefs=False)
+	id 			= Column(Integer, primary_key=True)
+	patent_id	= Column(Integer, ForeignKey(Patent.id))
+	patent 		= relation("Patent", backref=backref("references", cascade="delete"))
+	text 		= Column(String(255))
 
 	def __init__(self, text, patent):
-		super(NonPatReference, self).__init__(text, patent)
+		self.text = text
+		self.patent = patent
 
 
 
