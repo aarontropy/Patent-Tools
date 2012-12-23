@@ -3,9 +3,9 @@ import sqlalchemy.types as types
 
 Base = declarative_base()
 
-DATABASE = 'Patent_Test'
-USERNAME = 'sqlalchemy'
-PASSWORD = 'sqlalchemy'
+DATABASE = 'PatentTools'
+USERNAME = 'PatentTools'
+PASSWORD = 'PatentTools'
 
 
 class ChoiceType(types.TypeDecorator):
@@ -35,6 +35,6 @@ def create_schema():
 
 
 from patent import *
-from entity import *
-from litigation import *
+# from entity import *
+# from litigation import *
 
