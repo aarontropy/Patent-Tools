@@ -53,7 +53,7 @@ def download_next_bib(n=1):
         localfile.close()
 
         dl_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        sql = 'INSERT INTO files_retrieved (filename, url, download_date) VALUES ("%s", "%s", \'%s\')' % (dl_filename, dl_url, dl_date)
+        sql = 'INSERT INTO files_retrieved (filename, url, downloadDate) VALUES ("%s", "%s", \'%s\')' % (dl_filename, dl_url, dl_date)
         try:
             cur.execute(sql)
             con.commit()
