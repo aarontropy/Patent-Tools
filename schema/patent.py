@@ -110,6 +110,7 @@ class PublicationReference(Base):
 	kind		= Column(String(10))
 	name		= Column(String(20))
 	date 		= Column(Date)
+	num 		= Column(Integer)
 
 	def __init__(self, text, patent):
 		self.text = text
@@ -125,6 +126,7 @@ class ApplicationReference(Base):
 	docNumber 	= Column(String(20))
 	country		= Column(String(10))
 	date 		= Column(Date)
+	num 		= Column(Integer)
 
 	def __init__(self, text, patent):
 		self.text = text
@@ -138,6 +140,7 @@ class NonPatReference(Base):
 	patent_id	= Column(Integer, ForeignKey(Patent.id))
 	patent 		= relation("Patent", backref=backref("references", cascade="delete"))
 	text 		= Column(String(255))
+	num 		= Column(Integer)
 
 	def __init__(self, text, patent):
 		self.text = text

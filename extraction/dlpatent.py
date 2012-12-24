@@ -4,6 +4,9 @@ from datetime import datetime
 from BeautifulSoup import BeautifulSoup, SoupStrainer
 import os
 
+import PatentTools.schema as schema
+from sqlalchemy.orm import sessionmaker
+
 PROJ_DIR = os.path.dirname(os.path.realpath(__file__))
 DL_DIR = os.path.join(PROJ_DIR, 'Temp')
 
@@ -30,7 +33,14 @@ def bib_urls():
 def download_next_bib(n=1):
 
     # Create the needed tables if they don't exist
-    create_retrieve_tables()
+    # create_retrieve_tables()
+
+    # Get the needed database stuff 
+    db = schema.engine()
+    db.echo = False
+
+    Session = sessionmaker(bind=db)
+    session = Session()
 
     # Get a list of files we've already downloaded
     con = mdb.connect(DBSERVER, USERNAME, PASSWORD, DATABASE);
