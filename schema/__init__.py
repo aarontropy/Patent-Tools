@@ -36,6 +36,7 @@ def create_schema():
 
 from patent import *
 from util import *
+from ICE42 import *
 # from entity import *
 # from litigation import *
 

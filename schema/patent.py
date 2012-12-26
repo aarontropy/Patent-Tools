@@ -103,7 +103,7 @@ class PublicationReference(Base):
 
 	id = Column(Integer, primary_key=True)
 	patent_id	= Column(Integer, ForeignKey(Patent.id))
-	patent 		= relation("Patent", backref=backref("references", cascade="delete"))
+	patent 		= relation("Patent", backref=backref("pubreferences", cascade="delete"))
 	text 		= Column(String(255))
 	docNumber 	= Column(String(20))
 	country		= Column(String(10))
@@ -121,7 +121,7 @@ class ApplicationReference(Base):
 
 	id = Column(Integer, primary_key=True)
 	patent_id	= Column(Integer, ForeignKey(Patent.id))
-	patent 		= relation("Patent", backref=backref("references", cascade="delete"))
+	patent 		= relation("Patent", backref=backref("appreferences", cascade="delete"))
 	text 		= Column(String(255))
 	docNumber 	= Column(String(20))
 	country		= Column(String(10))
@@ -138,7 +138,7 @@ class NonPatReference(Base):
 
 	id 			= Column(Integer, primary_key=True)
 	patent_id	= Column(Integer, ForeignKey(Patent.id))
-	patent 		= relation("Patent", backref=backref("references", cascade="delete"))
+	patent 		= relation("Patent", backref=backref("nonpatreferences", cascade="delete"))
 	text 		= Column(String(255))
 	num 		= Column(Integer)
 
