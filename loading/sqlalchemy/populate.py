@@ -82,14 +82,14 @@ def parse_ICE(filename):
 	patentGrant.appNumber		  = nodeText(bib.find('application-reference/document-id/doc-number'))
 	patentGrant.appDate			= nodeText(bib.find('application-reference/document-id/date'))
 
-	patentGrant.grantLength		= '?'
+	patentGrant.grantLength		= nodeText(bib.find('us-term-of-grant/length-of-grant'))
 	patentGrant.termExtension	  = nodeText(bib.find('us-term-of-grant/us-term-extension'))
+    patentGrant.termDisclaimer  = nodeText(bib.find('us-term-of-grant/disclaimer/text'))
 
 	patentGrant.appSeriesCode	  = nodeText(bib.find('us-application-series-code'))
 	patentGrant.inventionTitle	 = nodeText(bib.find('invention-title'))
 	patentGrant.inventionTitleId   = bib.find('invention-title').attrib.get('id', None)
 	patentGrant.numberOfClaims	   = nodeText(bib.find('number-of-claims'))
-	patentGrant.usExemplaryClaims  = nodeText(bib.find('us-exemplary-claim'))
     patentGrant.numberOfSheets      = nodeText(bib.find('figures/number-of-drawing-sheets'))
     patentGrant.numberOfFigures     = nodeText(bib.find('figures/number-of-figures'))
 
@@ -127,7 +127,7 @@ def parse_ICE(filename):
 				nc = ice.ClassificationNational()
 				nc.patentGrant   = patentGrant
 				nc.country	   = natClassCountry
-				nc.text		  = nodeText(c)
+				nc.klass		  = nodeText(c)
 				if c.tag == 'main-classification':
 					nc.main = True
 				elif c.tag == 'further-classification':
@@ -223,6 +223,26 @@ def parse_ICE(filename):
 			ae.country	  = nodeText(a.find('addressbook/address/country'))
 			patObjects.append(ae)
 
+
+    #---------------------------------------------------------------------------
+    # Inventors (No longer used after Aug25 2009)
+    inventors = bib.find('inventors')
+    if inventors is not None:
+        for i in inventors.getchildren():
+            inv = ice.Inventor()
+            inv.patentGrant = patentGrant
+            inv.invType     = i.tag
+            inv.sequence    = i.attrib.get('sequence', None)
+            if i.tag == 'deceased-inventor':
+                inv.lastName    = nodeText(i.find('last-name'))
+                inv.firstName   = nodeText(i.find('first-name'))
+            else:
+                inv.lastName    = nodeText(i.find('addressbook/last-name'))
+                inv.firstName   = nodeText(i.find('addressbook/first-name'))
+                inv.city        = nodeText(i.find('addressbook/city'))
+                inv.country     = nodeText(i.find('addressbook/country'))
+            patObjects.append(inv)
+
 	#---------------------------------------------------------------
 	# Abstract
 	abstract = grant.find('abstract')
@@ -231,9 +251,10 @@ def parse_ICE(filename):
 			# create abstract p items
 			ap = ice.AbstractP()
 			ap.patentGrant = patentGrant
+            strc = tostring(p)
+            ap.content      = strc[strc.find('>')+1:strc.rfind('<')]
 			ap.abId		 = p.attrib.get('id', None)
 			ap.num		  = p.attrib.get('num', None)
-			ap.content	  = nodeText(p)
 			for c in p.iter('chemistry'):
 				ch = ice.AbstractChemistry()
 				ch.abstractP = ap
@@ -269,14 +290,40 @@ def parse_ICE(filename):
 
 	#---------------------------------------------------------------
 	# Related Documents
-	related = bib.find('us-related-documents')
-	if related is not None:
-		for r in related.getchildren():
-			if r.tag in ['continuation', 'continuation-in-part', 'division']:
-				pass
-			elif r.tag in ['us-provisional-application', 'related-publication']:
-				pass
-
+	relatedDocs = bib.find('us-related-documents')
+	if relatedDocs is not None:
+        for doc in relatedDocs.getchildren():
+            rd = ice.RelatedDocument()
+            rd.patentGrant = patentGrant
+            rd.relationKind = doc.tag
+            for docid in rd.iter('document-id'): # mutually exclusive with 'relation'
+                rd.docCountry       = nodeText(docid.find('country'))
+                rd.docNumber        = nodeText(docid.find('doc-number'))
+                rd.docKind          = nodeText(docid.find('kind'))
+                rd.docDate          = nodeText(docid.find('date'))
+            for rel in rd.iter('relation'): # mutually exclusive with 'document-id'
+                for child in rel.iter('child-doc'):
+                    rd.childCountry       = nodeText(child.find('document-id/country'))
+                    rd.childNumber        = nodeText(child.find('document-id/doc-number'))
+                    rd.childKind          = nodeText(child.find('document-id/kind'))
+                    rd.childDate          = nodeText(child.find('document-id/date'))
+                for parent in rel.iter('parent-doc'):
+                    rd.parentStatus = nodeText(parent.find('parent-status'))
+                    rd.parentCountry      = nodeText(parent.find('document-id/country'))
+                    rd.parentNumber       = nodeText(parent.find('document-id/doc-number'))
+                    rd.parentKind         = nodeText(parent.find('document-id/kind'))
+                    rd.parentDate         = nodeText(parent.find('document-id/date'))
+                    for grant in parent.iter('parent-grant-document'):
+                        rd.parentGrantCountry      = nodeText(grant.find('document-id/country'))
+                        rd.parentGrantNumber       = nodeText(grant.find('document-id/doc-number'))
+                        rd.parentGrantKind         = nodeText(grant.find('document-id/kind'))
+                        rd.parentGrantDate         = nodeText(grant.find('document-id/date'))
+                    for pct in parent.iter('parent-pct-document'):
+                        rd.parentPCTCountry        = nodeText(pct.find('document-id/country'))
+                        rd.parentPCTNumber         = nodeText(pct.find('document-id/doc-number'))
+                        rd.parentPCTKind           = nodeText(pct.find('document-id/kind'))
+                        rd.parentPCTDate           = nodeText(pct.find('document-id/date'))
+            patObjects.append(rd)
 	#---------------------------------------------------------------------------
 	# Examiners
 	exam = bib.find('examiners')
@@ -291,9 +338,9 @@ def parse_ICE(filename):
 			patObjects.append(em)
 
     #---------------------------------------------------------------------------
-    # Foreign Filings
+    # PCT or Regional Filings
     for f in bib.iter('pct-or-regional-filing-data'):
-        fi = ice.ForeignFiling()
+        fi = ice.PCTOrRegionalFiling()
         fi.patentGrant = patentGrant
         fi.docCountry   = nodeText(f.find('document-id/country'))
         fi.docNumber    = nodeText(f.find('document-id/doc-number'))
@@ -303,12 +350,55 @@ def parse_ICE(filename):
         patObjects.append(fi)
 
     #---------------------------------------------------------------------------
-    # Foreign Publishing
+    # PCT or Regional Publishing
     for f in bib.iter('pct-or-regional-publishing-data'):
-        fi = ice.ForeignPublishing()
+        fi = ice.PCTOrRegionalPublishing()
         fi.patentGrant = patentGrant
         fi.docCountry   = nodeText(f.find('document-id/country'))
         fi.docNumber    = nodeText(f.find('document-id/doc-number'))
         fi.docKind      = nodeText(f.find('document-id/kind'))
         fi.docDate      = nodeText(f.find('document-id/date'))
         patObjects.append(fi)
+
+    #---------------------------------------------------------------------------
+    # Exemplary Claims
+    for e in bib.iter('us-exemplary-claim'):
+        ex = ice.ExemplaryClaim()
+        ex.patentGrant = patentGrant
+        ex.count = nodeText(e)
+        patObjects.append(ex)
+
+
+#-------------------------------------------------------------------------------
+# FULLTEXT
+#-------------------------------------------------------------------------------
+
+
+    #---------------------------------------------------------------------------
+    # Drawings 
+    drawings = grant.find('drawings')
+    if drawings is not None:
+        for fig in drawings.iter('figure')
+            fi = ice.Figure()
+            fi.patentGrant = patentGrant
+            fi.figureId         = fig.attrib.get('id', None)
+            fi.num              = fig.attrib.get('num', None)
+            img = fig.find('img')
+            fi.imgId            = img.attrib.get('id', None)
+            fi.imgHe            = img.attrib.get('he', None)
+            fi.imgWi            = img.attrib.get('wi', None)
+            fi.imgOrientation   = img.attrib.get('orientation', 'portrait')
+            fi.imgFile          = img.attrib.get('file', None)
+            fi.imgAlt           = img.attrib.get('alt', None)
+            fi.imgContent       = img.attrib.get('img-content', 'drawing')
+            fi.imgFormat        = img.attrib.get('img-format', None)
+            patObjects.append(fi)
+
+    #---------------------------------------------------------------------------
+    # Description
+    description = grant.find('description')
+
+    #---------------------------------------------------------------------------
+    # Claims 
+    claims = grant.find('claims')
+    
