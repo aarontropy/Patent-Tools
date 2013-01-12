@@ -1,0 +1,195 @@
+<PATDOC DTD="2.5" STATUS="Build 20031001">
+<SDOBI>
+<B100>
+<B110><DNUM><PDAT>06742283</PDAT></DNUM></B110>
+<B130><PDAT>B2</PDAT></B130>
+<B140><DATE><PDAT>20040601</PDAT></DATE></B140>
+<B190><PDAT>US</PDAT></B190>
+</B100>
+<B200>
+<B210><DNUM><PDAT>10220975</PDAT></DNUM></B210>
+<B211US><PDAT>10</PDAT></B211US>
+<B220><DATE><PDAT>20021021</PDAT></DATE></B220>
+</B200>
+<B300>
+<B310><DNUM><PDAT>2000-060344</PDAT></DNUM></B310>
+<B320><DATE><PDAT>20000306</PDAT></DATE></B320>
+<B330><CTRY><PDAT>JP</PDAT></CTRY></B330>
+</B300>
+<B500>
+<B510>
+<B511><PDAT>F26B  300</PDAT></B511>
+<B516><PDAT>7</PDAT></B516>
+</B510>
+<B520>
+<B521><PDAT> 34479</PDAT></B521>
+<B522><PDAT> 34417</PDAT></B522>
+<B522><PDAT> 34478</PDAT></B522>
+<B522><PDAT> 34513</PDAT></B522>
+</B520>
+<B540><STEXT><PDAT>Wood drying method</PDAT></STEXT></B540>
+<B560>
+<B561>
+<PCIT>
+<DOC><DNUM><PDAT>4233753</PDAT></DNUM>
+<DATE><PDAT>19801100</PDAT></DATE>
+<KIND><PDAT>A</PDAT></KIND>
+</DOC>
+<PARTY-US>
+<NAM><SNM><STEXT><PDAT>Olson</PDAT></STEXT></SNM></NAM>
+</PARTY-US>
+<PNC><PDAT> 34405</PDAT></PNC></PCIT><CITED-BY-EXAMINER/>
+</B561>
+<B561>
+<PCIT>
+<DOC><DNUM><PDAT>4343095</PDAT></DNUM>
+<DATE><PDAT>19820800</PDAT></DATE>
+<KIND><PDAT>A</PDAT></KIND>
+</DOC>
+<PARTY-US>
+<NAM><SNM><STEXT><PDAT>Rosen et al.</PDAT></STEXT></SNM></NAM>
+</PARTY-US>
+<PNC><PDAT> 34411</PDAT></PNC></PCIT><CITED-BY-EXAMINER/>
+</B561>
+<B561>
+<PCIT>
+<DOC><DNUM><PDAT>4345384</PDAT></DNUM>
+<DATE><PDAT>19820800</PDAT></DATE>
+<KIND><PDAT>A</PDAT></KIND>
+</DOC>
+<PARTY-US>
+<NAM><SNM><STEXT><PDAT>Pagnozzi et al.</PDAT></STEXT></SNM></NAM>
+</PARTY-US>
+<PNC><PDAT> 34411</PDAT></PNC></PCIT><CITED-BY-EXAMINER/>
+</B561>
+<B561>
+<PCIT>
+<DOC><DNUM><PDAT>5392530</PDAT></DNUM>
+<DATE><PDAT>19950200</PDAT></DATE>
+<KIND><PDAT>A</PDAT></KIND>
+</DOC>
+<PARTY-US>
+<NAM><SNM><STEXT><PDAT>Izumi</PDAT></STEXT></SNM></NAM>
+</PARTY-US>
+<PNC><PDAT> 34404</PDAT></PNC></PCIT><CITED-BY-EXAMINER/>
+</B561>
+<B561>
+<PCIT>
+<DOC><DNUM><PDAT>5852880</PDAT></DNUM>
+<DATE><PDAT>19981200</PDAT></DATE>
+<KIND><PDAT>A</PDAT></KIND>
+</DOC>
+<PARTY-US>
+<NAM><SNM><STEXT><PDAT>Harrison</PDAT></STEXT></SNM></NAM>
+</PARTY-US>
+<PNC><PDAT> 34 92</PDAT></PNC></PCIT><CITED-BY-EXAMINER/>
+</B561>
+<B561>
+<PCIT>
+<DOC><DNUM><PDAT>06213568</PDAT></DNUM>
+<DATE><PDAT>19940800</PDAT></DATE>
+<CTRY><PDAT>JP</PDAT></CTRY>
+<KIND><PDAT>A</PDAT></KIND>
+</DOC>
+</PCIT>
+<CITED-BY-EXAMINER/>
+</B561>
+<B561>
+<PCIT>
+<DOC><DNUM><PDAT>08210772</PDAT></DNUM>
+<DATE><PDAT>19960800</PDAT></DATE>
+<CTRY><PDAT>JP</PDAT></CTRY>
+<KIND><PDAT>A</PDAT></KIND>
+</DOC>
+</PCIT>
+<CITED-BY-EXAMINER/>
+</B561>
+</B560>
+<B570>
+<B577><PDAT>11</PDAT></B577>
+<B578US><PDAT>1</PDAT></B578US>
+</B570>
+<B580>
+<B582><PDAT> 34413</PDAT></B582>
+<B582><PDAT> 34417</PDAT></B582>
+<B582><PDAT> 34478</PDAT></B582>
+<B582><PDAT> 34479</PDAT></B582>
+<B582><PDAT> 34513</PDAT></B582>
+<B582><PDAT> 34518</PDAT></B582>
+</B580>
+<B590><B595><PDAT>2</PDAT></B595><B596><PDAT>2</PDAT></B596><B597US/>
+</B590>
+</B500>
+<B600>
+<B690US>
+<DOC>
+<DNUM><PDAT>20030115771</PDAT></DNUM>
+<DATE><PDAT>20030626</PDAT></DATE>
+<CTRY><PDAT>US</PDAT></CTRY>
+<KIND><PDAT>A1</PDAT></KIND>
+</DOC>
+</B690US>
+</B600>
+<B700>
+<B720>
+<B721>
+<PARTY-US>
+<NAM><FNM><PDAT>Sachio</PDAT></FNM><SNM><STEXT><PDAT>Ishii</PDAT></STEXT></SNM></NAM>
+<ADR>
+<CITY><PDAT>Maebashi</PDAT></CITY>
+<CTRY><PDAT>JP</PDAT></CTRY>
+</ADR>
+</PARTY-US>
+</B721>
+</B720>
+<B730>
+<B731>
+<PARTY-US>
+<NAM><ONM><STEXT><PDAT>Technical System Keep Limited Company</PDAT></STEXT></ONM></NAM>
+<ADR><CITY><PDAT>Tokyo</PDAT></CITY><CTRY><PDAT>JP</PDAT></CTRY></ADR>
+</PARTY-US>
+</B731>
+<B732US>
+<PDAT>03</PDAT>
+</B732US>
+</B730>
+<B740>
+<B741>
+<PARTY-US>
+<NAM><ONM><STEXT><PDAT>Jordan and Hamburg LLP</PDAT></STEXT></ONM></NAM>
+</PARTY-US>
+</B741>
+</B740>
+<B745>
+<B746>
+<PARTY-US>
+<NAM><FNM><PDAT>Ira S.</PDAT></FNM><SNM><STEXT><PDAT>Lazarus</PDAT></STEXT></SNM></NAM>
+</PARTY-US>
+</B746>
+<B747>
+<PARTY-US>
+<NAM><FNM><PDAT>Kathryn S.</PDAT></FNM><SNM><STEXT><PDAT>O&apos;Malley</PDAT></STEXT></SNM></NAM>
+</PARTY-US>
+</B747>
+<B748US><PDAT>3749</PDAT></B748US>
+</B745>
+</B700>
+<B800>
+<B860>
+<B861>
+<DOC><DNUM><PDAT>PCT/JP01/01549</PDAT></DNUM><DATE><PDAT>20010301</PDAT></DATE><CTRY><PDAT>WO</PDAT></CTRY><KIND><PDAT>00</PDAT></KIND></DOC>
+</B861>
+</B860>
+<B870>
+<B871><DOC><DNUM><PDAT>WO01/66322</PDAT></DNUM><DATE><PDAT>20010913</PDAT></DATE><CTRY><PDAT>WO</PDAT></CTRY><KIND><PDAT>A </PDAT></KIND></DOC></B871>
+</B870>
+</B800>
+</SDOBI>
+<SDOAB>
+<BTEXT>
+<PARA ID="P-00001" LVL="0"><PTEXT><PDAT>Method for drying wood in a short period of time by maintaining the concentration of a combustion gas contained in a drying room atmosphere for use in drying the wood to a high value and by maintaining the pressure of the drying room atmosphere to a high value. Wood fuels such as waste wood are put into a combustion chamber ins lower area of a combustion gas generating furnace and then the wood fuels are burned, followed by introducing the high-temperature combustion gas generated by the burning of the wood fuels into an upper area of a drying room housing the green wood to thereby dry the wood. Thermal drying of the wood is carried out by maintaining the concentration of the combustion gas present in the drying room atmosphere at a the high value and by maintaining the pressure of the drying room atmosphere at a high value.</PDAT></PTEXT></PARA>
+</BTEXT>
+</SDOAB>
+<SDODE>
+</SDODE>
+</PATDOC>
