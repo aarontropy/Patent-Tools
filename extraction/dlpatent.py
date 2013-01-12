@@ -11,19 +11,19 @@ PROJ_DIR = os.path.dirname(os.path.realpath(__file__))
 DL_DIR = os.path.join(PROJ_DIR, 'Temp')
 
 if not os.path.exists(DL_DIR):
-    os.makedirs(DL_DIR)
+	os.makedirs(DL_DIR)
 
 
 URL_BIB = 'http://www.google.com/googlebooks/uspto-patents-grants-biblio.html'
-DBSERVER = '127.0.0.1'
-USERNAME = 'PatentTools'
-PASSWORD = 'PatentTools'
-DATABASE = 'PatentTools'
+# DBSERVER = '127.0.0.1'
+# USERNAME = 'PatentTools'
+# PASSWORD = 'PatentTools'
+# DATABASE = 'PatentTools'
 
 
 def bib_urls():
 	response = urllib2.urlopen(URL_BIB).read()
-    urls = []
+	urls = []
 
 	for link in BeautifulSoup(response, parseOnlyThese=SoupStrainer('a')):
 		if link.has_key('href') and link['href'].find('.zip') != -1:
@@ -32,54 +32,44 @@ def bib_urls():
 
 def download_next_bib(n=1):
 
-    # Create the needed tables if they don't exist
-    # create_retrieve_tables()
+	# Create the needed tables if they don't exist
+	# create_retrieve_tables()
 
-    # Get the needed database stuff 
-    db = schema.engine()
-    db.echo = False
+	# Get the needed database stuff 
+	db = schema.engine()
+	db.echo = False
 
-    Session = sessionmaker(bind=db)
-    session = Session()
+	Session = sessionmaker(bind=db)
+	session = Session()
 
-    # Get a list of files we've already downloaded
-    con = mdb.connect(DBSERVER, USERNAME, PASSWORD, DATABASE);
-    cur = con.cursor()
-    cur.execute('SELECT url from files_retrieved')
-    dl_urls = [f[0] for f in cur.fetchall()]
+	# Get a list of files we've already downloaded
+	q = session.query(schema.FileDownloadRecord.url).distinct()
+	dl_urls = [url for url in q]
 
-    # get a list of files on the webpage
-    urls = [url for url in bib_urls()]
-    # files = [filename[filename.rfind('/')+1:] for filename in urls]
+	# get a list of files on the webpage
+	urls = [url for url in bib_urls()]
+	# files = [filename[filename.rfind('/')+1:] for filename in urls]
 
-    # list of files to retrieve 
-    urls_to_retrieve = list(set(urls) - set(dl_urls) )
+	# list of files to retrieve 
+	urls_to_retrieve = list(set(urls) - set(dl_urls) )
 
-    for dl_url in urls_to_retrieve[:n]:
-        remotefile = urllib2.urlopen(dl_url)
-        dl_filename = dl_url[dl_url.rfind('/')+1:]
-        localfile = open( os.path.join(DL_DIR, dl_filename), 'w' )
-        localfile.write(remotefile.read())
-        localfile.close()
+	for dl_url in urls_to_retrieve[:n]:
+		remotefile = urllib2.urlopen(dl_url)
+		dl_filename = dl_url[dl_url.rfind('/')+1:]
+		localfile = open( os.path.join(DL_DIR, dl_filename), 'w' )
+		localfile.write(remotefile.read())
+		localfile.close()
 
-        dl_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        sql = 'INSERT INTO files_retrieved (filename, url, downloadDate) VALUES ("%s", "%s", \'%s\')' % (dl_filename, dl_url, dl_date)
-        try:
-            cur.execute(sql)
-            con.commit()
-        except:
-            con.rollback()
+		# save the record of this download
+		dlRec = schema.FileDownloadRecord()
+		dlRec.url = dl_url
+		dlRec.tmpFilename = localfile
+		dlRec.downloadDate = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+		dlRec.imported = False
+		session.add(dlRec)
+		session.commit()
 
-
-    con.close()
-
-def create_retrieve_tables():
-    #mdb.connect('localhost', 'username', 'password', 'database');
-    con = mdb.connect(DBSERVER, USERNAME, PASSWORD, DATABASE);
-    cur = con.cursor()
-    cur.execute("CREATE TABLE IF NOT EXISTS files_retrieved(filename VARCHAR(255), url VARCHAR(255), download_date DATETIME, load_date DATETIME)")
-    con.close()
 
 if __name__ == '__main__':
-    download_next_bib()
+	download_next_bib()
 

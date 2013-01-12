@@ -1,9 +1,11 @@
-from sqlalchemy import Column, Integer, String, Boolean, Date, create_engine, Table
+from sqlalchemy import Column, Integer, String, Boolean, Date, create_engine, Table, Text
 from sqlalchemy.orm import sessionmaker, relationship, backref, relation
 from sqlalchemy.schema import ForeignKey
 
 from PatentTools.schema import Base
+from datetime import datetime
 # from PatImport.schema.entity import Inventor
+
 
 
 
@@ -16,16 +18,33 @@ from PatentTools.schema import Base
 # )
 
 
+def splitUSClass(text):
+	sep = text.find('/')
+	if sep != -1:
+		return (text[:sep], text[sep+1:])
+	else:
+		return (None, None)
+
+
+
 
 class Patent(Base):
 	__tablename__ = 'patents'
 
 	id 					= Column(Integer, primary_key=True)
-	docNumber			= Column(String(15))
-	appNumber		 	= Column(String(15))
+	docNumber			= Column(String(8))
+	appNumber		 	= Column(String(10))
+	appSeriesCode		= Column(Integer)
 	fileDate			= Column(Date)
 	issueDate			= Column(Date)
 	title 				= Column(String(500))
+
+	grantLength			= Column(Integer)
+	termExtension 		= Column(Integer)
+	termDisclaimerText 	= Column(Text)
+
+	numberOfClaims 		= Column(Integer)
+	numberOfIndependentClaims 	= Column(Integer)
 
 
 	# inventors = relationship('Inventor', secondary=patent_inventor, backref='patents')
@@ -40,12 +59,7 @@ class Patent(Base):
 
 #===============================================================================
 # CLASSIFICATION SECTION
-def splitUSClass(text):
-	sep = text.find('/')
-	if sep != -1:
-		return (text[:sep], text[sep+1:])
-	else:
-		return (None, None)
+
 
 
 class InternationalClass(Base):

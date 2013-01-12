@@ -1,0 +1,1 @@
+from sgml_import import uspto_sgml_entities

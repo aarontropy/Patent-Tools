@@ -5,6 +5,15 @@ from sqlalchemy.schema import ForeignKey
 from PatentTools.schema import Base
 
 
+USPTODATEFORMAT = "%Y%m%d"
+
+def parseUSPTODate(usptoDate):
+	try:
+		return datetime.strptime(usptoDate, USPTODATEFORMAT)
+	except:
+		return None
+		
+
 class UsPatentGrant(Base):
 	__tablename__ = 'ICE42_UsPatentGrant'
 
@@ -106,6 +115,9 @@ class FieldOfSearch(Base):
 
 	# if additionalInfo is not null, value will be 'unstructured'
 	# note that us-classification-ipcr is omitted here for lack of practical use at USPTO
+	#
+	# TODO: Add us-classification-ipcr - it IS used sometimes.
+	# 
 	country 			= Column(String(2))
 	mainKlass			= Column(String(10))
 	additionalInfo 		= Column(String(20))
